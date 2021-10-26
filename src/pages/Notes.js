@@ -13,18 +13,21 @@ export default function Notes() {
   }, []);
 
   const handleDelete = (id) => {
-    // await fetch("http://localhost:5000/notes/" + id, {
-    //   method: "DELETE",
-    // });
     axios.delete(`http://localhost:5000/notes/${id}`).then((res) => {
       console.log(res.data);
       if (res.data.deletedCount > 0) {
-        const newNote = notes.filter((note) => note._id !== id);
-        setNotes(newNote);
-        console.log(newNote);
+        const newNotes = notes.filter((note) => note._id !== id);
+        setNotes(newNotes);
+        console.log(newNotes);
       }
     });
   };
+
+  // const handleFavourite = (id) => {
+  //   axios.get(`http://localhost:5000:/notes/${id}`).then((res) => {
+  //     console.log(res.data);
+  //   });
+  // };
 
   return (
     <Container>

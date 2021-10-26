@@ -28,31 +28,52 @@ const NoteCard = ({ note, handleDelete }) => {
     history.push(`/notes/update/${id}`);
   };
 
-  useEffect(() => {
-    axios.get(`http://localhost:5000/favourites/${note._id}`).then((res) => {
-      // console.log(res.data);
-      if (res.data) {
-        setFavSelected(true);
-      } else {
-        setFavSelected(false);
-      }
-    });
-  }, [note._id]);
+  // useEffect(() => {
+  //   axios.get(`http://localhost:5000/favourites/${note._id}`).then((res) => {
+  //     // console.log(res.data);
+  //     if (res.data) {
+  //       setFavSelected(true);
+  //     } else {
+  //       setFavSelected(false);
+  //     }
+  //   });
+  // }, [note._id]);
 
   const handleFavourite = (id) => {
-    axios.get(`http://localhost:5000/notes/${id}`).then((res) => {
-      // console.log(res.data);
-      axios.post(`http://localhost:5000/favourites`, res.data).then((res) => {
+    setFavSelected(!favSelected);
+    console.log(!favSelected);
+    if (!favSelected) {
+      axios.get(`http://localhost:5000/notes/${id}`).then((res) => {
         // console.log(res.data);
-        if (res.data.insertedId) {
-          axios.get(`http://localhost:5000/favourites/${id}`).then((res) => {
-            // console.log(res.data);
-            setFavourite(res.data);
-            setFavSelected(true);
-          });
-        }
+        axios.post(`http://localhost:5000/favourites`, res.data).then((res) => {
+          // console.log(res.data);
+          if (res.data.insertedId) {
+            axios.get(`http://localhost:5000/favourites/${id}`).then((res) => {
+              // console.log(res.data);
+              setFavourite(res.data);
+              // setFavSelected(true);
+            });
+          }
+        });
       });
-    });
+    } else {
+      axios.delete(`http://localhost:5000/favourites/${id}`).then((res) => {
+        console.log(res);
+      });
+    }
+    // axios.get(`http://localhost:5000/notes/${id}`).then((res) => {
+    //   // console.log(res.data);
+    //   axios.post(`http://localhost:5000/favourites`, res.data).then((res) => {
+    //     // console.log(res.data);
+    //     if (res.data.insertedId) {
+    //       axios.get(`http://localhost:5000/favourites/${id}`).then((res) => {
+    //         // console.log(res.data);
+    //         setFavourite(res.data);
+    //         setFavSelected(true);
+    //       });
+    //     }
+    //   });
+    // });
   };
 
   // console.log(favourite);

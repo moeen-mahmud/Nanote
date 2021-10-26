@@ -34,7 +34,7 @@ function App() {
             <Route path="/create">
               <Create />
             </Route>
-            <Route path="favourites">
+            <Route path="/favourites">
               <Favorites></Favorites>
             </Route>
             <Route path="/notes/update/:id">

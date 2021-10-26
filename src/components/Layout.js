@@ -88,7 +88,7 @@ const Layout = ({ children }) => {
           <Typography sx={{ flexGrow: 1 }}>
             Today is {format(new Date(), "eeee',' do MMMM Y'.'")}
           </Typography>
-          <Typography>Hello, User</Typography>
+          <Typography>Hello, Moeen</Typography>
         </Toolbar>
       </AppBar>
 

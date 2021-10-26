@@ -5,8 +5,6 @@ import NoteCard from "../components/NoteCard";
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
-  // const [favSelected, setFavSelected] = useState(false);
-  const [favourite, setFavourite] = useState({});
 
   useEffect(() => {
     axios.get("http://localhost:5000/notes").then((res) => {
@@ -24,35 +22,6 @@ export default function Notes() {
       }
     });
   };
-
-  // const handleFavourite = (id) => {
-  //   axios.get(`http://localhost:5000/notes/${id}`).then((res) => {
-  //     if (res.data) {
-  //       setFavourite(res.data);
-  //       axios
-  //         .post(`http://localhost:5000/favourites`, favourite)
-  //         .then((res) => {
-  //           console.log(res);
-  //         });
-  //     }
-  //   });
-
-  //   // if (!favSelected) {
-  //   //   axios
-  //   //     .post(`http://localhost:5000/favourites`, favourite)
-  //   //     .then((res) => console.log(res));
-  //   // } else {
-  //   //   axios.delete(`http://localhost:5000/favourites/${id}`).then((res) => {
-  //   //     console.log(res);
-  //   //   });
-  //   // }
-  // };
-
-  // const handleFavourite = (id) => {
-  //   axios.get(`http://localhost:5000:/notes/${id}`).then((res) => {
-  //     console.log(res.data);
-  //   });
-  // };
 
   return (
     <Container>

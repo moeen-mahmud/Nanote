@@ -4,6 +4,7 @@ import Create from "./pages/Create";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Layout from "./components/Layout";
 import Update from "./pages/Update";
+import Favorites from "./pages/Favorites";
 const theme = createTheme({
   palette: {
     primary: {
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route path="/create">
               <Create />
+            </Route>
+            <Route path="favourites">
+              <Favorites></Favorites>
             </Route>
             <Route path="/notes/update/:id">
               <Update></Update>

@@ -14,6 +14,7 @@ import { makeStyles } from "@mui/styles";
 import React from "react";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { useHistory, useLocation } from "react-router";
 
 const menuItems = [
@@ -26,6 +27,11 @@ const menuItems = [
     text: "Create Notes",
     icon: <AddCircleOutlineOutlinedIcon color="secondary" />,
     path: "/create",
+  },
+  {
+    text: "Favourites",
+    icon: <FavoriteBorderOutlinedIcon color="secondary" />,
+    path: "/favourites",
   },
 ];
 

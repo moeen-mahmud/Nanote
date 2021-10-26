@@ -24,31 +24,57 @@ const NoteCard = ({ note, handleDelete }) => {
   };
   const history = useHistory();
 
-  useEffect(() => {
-    axios.get(`http://localhost:5000/notes/${note._id}`).then((res) => {
-      setFavourite(res.data);
-    });
-  }, [note._id]);
-
   const handleEdit = (id) => {
     history.push(`/notes/update/${id}`);
   };
 
-  const handleFavourite = () => {
-    setFavSelected(!favSelected);
-    console.log(!favSelected);
-    if (!favSelected) {
-      axios
-        .put(`http://localhost:5000/favourites`, favourite)
-        .then((res) => console.log(res));
-    } else {
-      axios
-        .delete(`http://localhost:5000/favourites/${note._id}`)
-        .then((res) => {
-          console.log(res);
-        });
-    }
+  useEffect(() => {
+    axios.get(`http://localhost:5000/favourites/${note._id}`).then((res) => {
+      // console.log(res.data);
+      if (res.data) {
+        setFavSelected(true);
+      } else {
+        setFavSelected(false);
+      }
+    });
+  }, [note._id]);
+
+  const handleFavourite = (id) => {
+    axios.get(`http://localhost:5000/notes/${id}`).then((res) => {
+      // console.log(res.data);
+      axios.post(`http://localhost:5000/favourites`, res.data).then((res) => {
+        // console.log(res.data);
+        if (res.data.insertedId) {
+          axios.get(`http://localhost:5000/favourites/${id}`).then((res) => {
+            // console.log(res.data);
+            setFavourite(res.data);
+            setFavSelected(true);
+          });
+        }
+      });
+    });
   };
+
+  // console.log(favourite);
+  // const processingFav = async () => {
+  //   await axios
+  //     .post(`http://localhost:5000/favourites`, favourite)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     });
+  // };
+
+  // const deleteFromFav = async (id) => {
+  //   await axios.delete(`http://localhost:5000/favourites/${id}`).then((res) => {
+  //     console.log(res.data);
+  //   });
+  // };
+
+  // const handleFavourite = (id) => {
+  //   axios.get(`http://localhost:5000:/notes/${id}`).then((res) => {
+  //     console.log(res.data);
+  //   });
+  // };
 
   return (
     <Card sx={() => noteHighlighter(note.category)} elevation={1}>
@@ -58,7 +84,7 @@ const NoteCard = ({ note, handleDelete }) => {
             <IconButton onClick={() => handleEdit(note._id)}>
               <EditOutlined />
             </IconButton>
-            <IconButton onClick={handleFavourite}>
+            <IconButton onClick={() => handleFavourite(note._id)}>
               {favSelected ? (
                 <FavoriteOutlinedIcon color="secondary" />
               ) : (

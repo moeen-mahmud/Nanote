@@ -33,7 +33,7 @@ export default function Create() {
 
     if (title && details) {
       axios
-        .post("http://localhost:5000/notes", {
+        .post("https://mysterious-wave-12411.herokuapp.com/notes", {
           title: title,
           details: details,
           category: category,

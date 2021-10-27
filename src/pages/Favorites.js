@@ -8,22 +8,26 @@ export default function Favourites() {
   const [openSnackbar, setOpenSnackBar] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/favourites").then((res) => {
-      setNotes(res.data);
-    });
+    axios
+      .get("https://mysterious-wave-12411.herokuapp.com/favourites")
+      .then((res) => {
+        setNotes(res.data);
+      });
   }, []);
 
   const handleDelete = (id) => {
     const confirmation = window.confirm("Do you want to delete this note?");
     if (confirmation) {
-      axios.delete(`http://localhost:5000/notes/${id}`).then((res) => {
-        console.log(res.data);
-        if (res.data.deletedCount > 0) {
-          const newNotes = notes.filter((note) => note._id !== id);
-          setNotes(newNotes);
-          setOpenSnackBar(true);
-        }
-      });
+      axios
+        .delete(`https://mysterious-wave-12411.herokuapp.com/notes/${id}`)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.deletedCount > 0) {
+            const newNotes = notes.filter((note) => note._id !== id);
+            setNotes(newNotes);
+            setOpenSnackBar(true);
+          }
+        });
     }
   };
 

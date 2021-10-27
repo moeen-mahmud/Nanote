@@ -40,76 +40,48 @@ const NoteCard = ({ note, handleDelete }) => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/favourites/${note._id}`).then((res) => {
-      // console.log(res.data);
-      if (res.data) {
-        setFavSelected(true);
-      } else {
-        setFavSelected(false);
-      }
-    });
+    axios
+      .get(`https://mysterious-wave-12411.herokuapp.com/favourites/${note._id}`)
+      .then((res) => {
+        // console.log(res.data);
+        if (res.data) {
+          setFavSelected(true);
+        } else {
+          setFavSelected(false);
+        }
+      });
   }, [note._id]);
 
   const handleFavourite = (id) => {
     setFavSelected(!favSelected);
     console.log(!favSelected);
     if (!favSelected) {
-      axios.get(`http://localhost:5000/notes/${id}`).then((res) => {
-        // console.log(res.data);
-        axios.post(`http://localhost:5000/favourites`, res.data).then((res) => {
+      axios
+        .get(`https://mysterious-wave-12411.herokuapp.com/notes/${id}`)
+        .then((res) => {
           // console.log(res.data);
-          if (res.data.insertedId) {
-            // axios.get(`http://localhost:5000/favourites/${id}`).then((res) => {
-            //   // console.log(res.data);
-            //   setFavourite(res.data);
-            //   // setFavSelected(true);
-            // });
-            setOpenSuccessSnackBar(true);
+          axios
+            .post(
+              `https://mysterious-wave-12411.herokuapp.com/favourites`,
+              res.data
+            )
+            .then((res) => {
+              // console.log(res.data);
+              if (res.data.insertedId) {
+                setOpenSuccessSnackBar(true);
+              }
+            });
+        });
+    } else {
+      axios
+        .delete(`https://mysterious-wave-12411.herokuapp.com/favourites/${id}`)
+        .then((res) => {
+          if (res.data.deletedCount > 0) {
+            setOpenWarningSnackBar(true);
           }
         });
-      });
-    } else {
-      axios.delete(`http://localhost:5000/favourites/${id}`).then((res) => {
-        if (res.data.deletedCount > 0) {
-          setOpenWarningSnackBar(true);
-        }
-      });
     }
-    // axios.get(`http://localhost:5000/notes/${id}`).then((res) => {
-    //   // console.log(res.data);
-    //   axios.post(`http://localhost:5000/favourites`, res.data).then((res) => {
-    //     // console.log(res.data);
-    //     if (res.data.insertedId) {
-    //       axios.get(`http://localhost:5000/favourites/${id}`).then((res) => {
-    //         // console.log(res.data);
-    //         setFavourite(res.data);
-    //         setFavSelected(true);
-    //       });
-    //     }
-    //   });
-    // });
   };
-
-  // console.log(favourite);
-  // const processingFav = async () => {
-  //   await axios
-  //     .post(`http://localhost:5000/favourites`, favourite)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     });
-  // };
-
-  // const deleteFromFav = async (id) => {
-  //   await axios.delete(`http://localhost:5000/favourites/${id}`).then((res) => {
-  //     console.log(res.data);
-  //   });
-  // };
-
-  // const handleFavourite = (id) => {
-  //   axios.get(`http://localhost:5000:/notes/${id}`).then((res) => {
-  //     console.log(res.data);
-  //   });
-  // };
 
   return (
     <Card sx={() => noteHighlighter(note.category)} elevation={1}>

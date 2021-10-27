@@ -21,7 +21,7 @@ import axios from "axios";
 export default function Update() {
   const { id } = useParams();
   const [note, setNote] = useState({});
-  const url = `http://localhost:5000/notes/${id}`;
+  const url = `https://mysterious-wave-12411.herokuapp.com/notes/${id}`;
   const history = useHistory();
   const [openSnackbar, setOpenSnackbar] = useState(false);
 

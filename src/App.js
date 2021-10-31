@@ -11,7 +11,10 @@ const theme = createTheme({
       main: "#232832",
     },
     secondary: {
-      main: "#e23e58",
+      main: "#544CE6",
+    },
+    favorite: {
+      main: "#E23E58",
     },
   },
   typography: {

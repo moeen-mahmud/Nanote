@@ -1,6 +1,7 @@
 import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 import {
   Alert,
+  Avatar,
   Card,
   CardContent,
   CardHeader,
@@ -30,9 +31,54 @@ const NoteCard = ({ note, handleDelete }) => {
 
   const noteHighlighter = (category) => {
     if (category === "work") {
-      return { border: "1px solid red" };
+      return {
+        border: "1px solid #ef5350",
+        boxShadow: "0px 6px 41px -15px rgba(30,30,60,0.25)",
+      };
+    }
+    if (category === "todos") {
+      return {
+        border: "1px solid #ff9800",
+        boxShadow: "0px 6px 41px -15px rgba(30,30,60,0.25)",
+      };
+    }
+    if (category === "money") {
+      return {
+        border: "1px solid #66bb6a",
+        boxShadow: "0px 6px 41px -15px rgba(30,30,60,0.25)",
+      };
+    }
+    if (category === "reminders") {
+      return {
+        border: "1px solid #5c6bc0",
+        boxShadow: "0px 6px 41px -15px rgba(30,30,60,0.25)",
+      };
     }
   };
+
+  const avatarBackground = (category) => {
+    if (category === "work") {
+      return {
+        backgroundColor: "#ef5350",
+      };
+    }
+    if (category === "todos") {
+      return {
+        backgroundColor: "#ff9800",
+      };
+    }
+    if (category === "money") {
+      return {
+        backgroundColor: "#66bb6a",
+      };
+    }
+    if (category === "reminders") {
+      return {
+        backgroundColor: "#5c6bc0",
+      };
+    }
+  };
+
   const history = useHistory();
 
   const handleEdit = (id) => {
@@ -84,8 +130,13 @@ const NoteCard = ({ note, handleDelete }) => {
   };
 
   return (
-    <Card sx={() => noteHighlighter(note.category)} elevation={1}>
+    <Card sx={() => noteHighlighter(note.category)}>
       <CardHeader
+        avatar={
+          <Avatar sx={() => avatarBackground(note.category)}>
+            {note.category.slice(0, 1).toUpperCase()}
+          </Avatar>
+        }
         action={
           <>
             <IconButton onClick={() => handleEdit(note._id)}>
@@ -93,7 +144,7 @@ const NoteCard = ({ note, handleDelete }) => {
             </IconButton>
             <IconButton onClick={() => handleFavourite(note._id)}>
               {favSelected ? (
-                <FavoriteOutlinedIcon color="secondary" />
+                <FavoriteOutlinedIcon color="favorite" />
               ) : (
                 <FavoriteBorderOutlinedIcon />
               )}

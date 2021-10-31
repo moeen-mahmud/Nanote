@@ -1,4 +1,4 @@
-import { Alert, Container, Snackbar } from "@mui/material";
+import { Alert, CircularProgress, Container, Snackbar } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NoteCard from "../components/NoteCard";
@@ -44,17 +44,25 @@ export default function Notes() {
 
   return (
     <Container>
-      <Masonry
-        breakpointCols={breakpoints}
-        className="my-masonry-grid"
-        columnClassName="my-masonry-grid_column"
-      >
-        {notes.map((note) => (
-          <div key={note._id}>
-            <NoteCard note={note} handleDelete={handleDelete} />
-          </div>
-        ))}
-      </Masonry>
+      {notes.length === 0 ? (
+        <CircularProgress
+          sx={{ position: "absolute", left: "50%", top: "50%" }}
+          color="secondary"
+        />
+      ) : (
+        <Masonry
+          breakpointCols={breakpoints}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {notes.map((note) => (
+            <div key={note._id}>
+              <NoteCard note={note} handleDelete={handleDelete} />
+            </div>
+          ))}
+        </Masonry>
+      )}
+
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

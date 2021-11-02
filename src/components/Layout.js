@@ -15,7 +15,9 @@ import React from "react";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useHistory, useLocation } from "react-router";
+import useAuth from "../hooks/useAuth";
 
 const menuItems = [
   {
@@ -51,6 +53,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Layout = ({ children }) => {
+  const { user, logOut } = useAuth();
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -80,6 +83,14 @@ const Layout = ({ children }) => {
                 </ListItemButton>
               </ListItem>
             ))}
+            <ListItem disablePadding>
+              <ListItemButton onClick={logOut}>
+                <ListItemIcon>
+                  <LogoutIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            </ListItem>
           </List>
         </div>
       </Drawer>
@@ -88,7 +99,9 @@ const Layout = ({ children }) => {
           <Typography sx={{ flexGrow: 1 }}>
             Today is {format(new Date(), "eeee',' do MMMM Y'.'")}
           </Typography>
-          <Typography>Hello, Moeen</Typography>
+          <Typography>
+            Hello {user ? user.displayName?.split(" ")[0] : ""}
+          </Typography>
         </Toolbar>
       </AppBar>
 

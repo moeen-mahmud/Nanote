@@ -1,8 +1,10 @@
-import { Alert, CircularProgress, Container, Snackbar } from "@mui/material";
+import { Alert, Container, Snackbar, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NoteCard from "../components/NoteCard";
 import Masonry from "react-masonry-css";
+import { Box } from "@mui/system";
+import BackgroundImage from "../assets/main-bg.svg";
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
@@ -45,10 +47,24 @@ export default function Notes() {
   return (
     <Container>
       {notes.length === 0 ? (
-        <CircularProgress
-          sx={{ position: "absolute", left: "50%", top: "50%" }}
-          color="secondary"
-        />
+        <Box
+          style={{
+            backgroundImage: `url("${BackgroundImage}")`,
+            height: "60vh",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            textAlign: "center",
+          }}
+          variant="h3"
+        >
+          <Box sx={{ my: 5 }}>
+            <Typography variant="h3">Welcome to Nanote</Typography>
+            <Typography sx={{ mt: 3 }} variant="body1">
+              Your note taking companion
+            </Typography>
+          </Box>
+        </Box>
       ) : (
         <Masonry
           breakpointCols={breakpoints}

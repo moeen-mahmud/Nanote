@@ -5,6 +5,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Layout from "./components/Layout";
 import Update from "./pages/Update";
 import Favorites from "./pages/Favorites";
+import AuthProvider from "./context/AuthProvider";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 const theme = createTheme({
   palette: {
     primary: {
@@ -27,26 +30,31 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Layout>
-          <Switch>
-            <Route exact path="/">
-              <Notes />
-            </Route>
-            <Route path="/create">
-              <Create />
-            </Route>
-            <Route path="/favourites">
-              <Favorites></Favorites>
-            </Route>
-            <Route path="/notes/update/:id">
-              <Update></Update>
-            </Route>
-          </Switch>
-        </Layout>
-      </Router>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Layout>
+            <Switch>
+              <PrivateRoute exact path="/">
+                <Notes />
+              </PrivateRoute>
+              <PrivateRoute path="/create">
+                <Create />
+              </PrivateRoute>
+              <PrivateRoute path="/favourites">
+                <Favorites></Favorites>
+              </PrivateRoute>
+              <PrivateRoute path="/notes/update/:id">
+                <Update></Update>
+              </PrivateRoute>
+            </Switch>
+          </Layout>
+          <Route path="/login">
+            <Login></Login>
+          </Route>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

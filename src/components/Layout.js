@@ -8,6 +8,7 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  Avatar,
 } from "@mui/material";
 import { format } from "date-fns";
 import { makeStyles } from "@mui/styles";
@@ -63,7 +64,7 @@ const Layout = ({ children }) => {
       <Drawer sx={{ width: "200px" }} variant="permanent" anchor="left">
         <div className={classes.drawer}>
           <Typography variant="h5" sx={{ padding: "1rem" }}>
-            Notes
+            NaNotes
           </Typography>
           <List>
             {menuItems.map((item) => (
@@ -99,7 +100,14 @@ const Layout = ({ children }) => {
           <Typography sx={{ flexGrow: 1 }}>
             Today is {format(new Date(), "eeee',' do MMMM Y'.'")}
           </Typography>
-          <Typography>
+          <Typography
+            sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
+          >
+            {user ? (
+              <Avatar src={user.photoURL} />
+            ) : (
+              <Avatar>{user.displayName?.slice(0, 1)}</Avatar>
+            )}
             Hello {user ? user.displayName?.split(" ")[0] : ""}
           </Typography>
         </Toolbar>

@@ -14,8 +14,11 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
+import useAuth from "../hooks/useAuth";
 
 export default function Create() {
+  const { user } = useAuth();
+
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
   const [category, setCategory] = useState("todos");
@@ -37,6 +40,7 @@ export default function Create() {
           title: title,
           details: details,
           category: category,
+          email: user.email,
         })
         .then(() => history.push("/"));
     }

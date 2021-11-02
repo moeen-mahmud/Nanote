@@ -5,8 +5,10 @@ import NoteCard from "../components/NoteCard";
 import Masonry from "react-masonry-css";
 import { Box } from "@mui/system";
 import BackgroundImage from "../assets/main-bg.svg";
+import useAuth from "../hooks/useAuth";
 
 export default function Notes() {
+  const { user } = useAuth();
   const [notes, setNotes] = useState([]);
   const [openSnackbar, setOpenSnackBar] = useState(false);
 
@@ -17,6 +19,8 @@ export default function Notes() {
         setNotes(res.data);
       });
   }, []);
+
+  const filteredNotes = notes.filter((note) => note.email === user.email);
 
   const handleDelete = (id) => {
     const confirmation = window.confirm("Do you want to delete this note?");
@@ -46,7 +50,7 @@ export default function Notes() {
 
   return (
     <Container>
-      {notes.length === 0 ? (
+      {filteredNotes.length === 0 ? (
         <Box
           style={{
             backgroundImage: `url("${BackgroundImage}")`,
@@ -71,7 +75,7 @@ export default function Notes() {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {notes.map((note) => (
+          {filteredNotes.map((note) => (
             <div key={note._id}>
               <NoteCard note={note} handleDelete={handleDelete} />
             </div>

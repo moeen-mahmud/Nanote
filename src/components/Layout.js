@@ -15,13 +15,16 @@ import {
   Stack,
   Button,
 } from "@mui/material";
-import { format } from "date-fns";
 import { makeStyles } from "@mui/styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import Brightness5Icon from "@mui/icons-material/Brightness5";
+import NightlightIcon from "@mui/icons-material/Nightlight";
+
 import { useHistory, useLocation } from "react-router";
 import useAuth from "../hooks/useAuth";
 import { Box } from "@mui/system";
@@ -62,6 +65,8 @@ const useStyles = makeStyles((theme) => {
 const Layout = ({ children }) => {
   const { user, logOut } = useAuth();
 
+  const [greetHour, setGreetHour] = useState(null);
+
   const [openModal, setOpenModal] = useState(false);
 
   const classes = useStyles();
@@ -80,6 +85,12 @@ const Layout = ({ children }) => {
     setOpenModal(false);
     logOut();
   };
+
+  useEffect(() => {
+    const date = new Date();
+    const hour = date.getHours();
+    setGreetHour(hour);
+  }, []);
 
   return (
     <div style={{ display: "flex" }}>
@@ -120,7 +131,34 @@ const Layout = ({ children }) => {
       <AppBar elevation={0} sx={{ width: `calc(100% - 200px)` }}>
         <Toolbar>
           <Typography sx={{ flexGrow: 1 }}>
-            Today is {format(new Date(), "eeee',' do MMMM Y'.'")}
+            {greetHour < 12 && (
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography variant="button" sx={{ fontSize: "1.1rem" }}>
+                  Good Morning
+                </Typography>
+                <WbSunnyIcon sx={{ color: "yellow" }} />
+              </Stack>
+            )}
+          </Typography>
+          <Typography sx={{ flexGrow: 1 }}>
+            {greetHour >= 12 && greetHour < 17 ? (
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography>Good Afternoon</Typography>
+                <Brightness5Icon sx={{ color: "orange" }} />
+              </Stack>
+            ) : (
+              ""
+            )}
+          </Typography>
+          <Typography sx={{ flexGrow: 1 }}>
+            {greetHour > 17 && greetHour <= 24 ? (
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography variant="button">Good Evening</Typography>
+                <NightlightIcon sx={{ color: "#544CE6" }} />
+              </Stack>
+            ) : (
+              ""
+            )}
           </Typography>
           <Typography
             sx={{ display: "flex", alignItems: "center", gap: "1rem" }}

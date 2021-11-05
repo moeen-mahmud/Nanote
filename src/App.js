@@ -9,25 +9,6 @@ import AuthProvider from "./context/AuthProvider";
 import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import useTheme from "./hooks/useTheme";
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: "#232832",
-//     },
-//     secondary: {
-//       main: "#544CE6",
-//     },
-//     favorite: {
-//       main: "#E23E58",
-//     },
-//   },
-//   typography: {
-//     fontFamily: "'Poppins', sans-serif",
-//     fontWeightRegular: 400,
-//     fontWeightMedium: 500,
-//     fontWeightBold: 700,
-//   },
-// });
 
 function App() {
   const { theme } = useTheme();

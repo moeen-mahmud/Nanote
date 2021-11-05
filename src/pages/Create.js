@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
+import { format } from "date-fns";
 
 export default function Create() {
   const { user } = useAuth();
@@ -41,6 +42,10 @@ export default function Create() {
           details: details,
           category: category,
           email: user.email,
+          createdAt: `${format(
+            new Date(),
+            "eeee',' do MMMM Y 'at' KK':'mm a'.'"
+          )}`,
         })
         .then(() => history.push("/"));
     }
@@ -48,8 +53,14 @@ export default function Create() {
 
   return (
     <Container>
-      <Typography variant="h6" component="h2" color="textSecondary" my="1.5rem">
-        Create a new note
+      <Typography
+        variant="h5"
+        component="h2"
+        color="textSecondary"
+        mt="-1rem"
+        mb="1rem"
+      >
+        Create a note
       </Typography>
       <form
         noValidate

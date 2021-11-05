@@ -10,7 +10,12 @@ import {
   Typography,
   Snackbar,
   Alert,
+  Chip,
+  Stack,
 } from "@mui/material";
+
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -18,11 +23,16 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router";
 import axios from "axios";
 
+import { format } from "date-fns";
+
 export default function Update() {
   const { id } = useParams();
   const [note, setNote] = useState({});
+
   const url = `https://mysterious-wave-12411.herokuapp.com/notes/${id}`;
+
   const history = useHistory();
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const [titleError, setTitleError] = useState(false);
@@ -65,6 +75,10 @@ export default function Update() {
           title: note.title,
           details: note.details,
           category: note.category,
+          modifiedAt: `${format(
+            new Date(),
+            "eeee',' do MMMM Y 'at' KK':'mm a'.'"
+          )}`,
         })
         .then((res) => {
           if (res.data.modifiedCount > 0) {
@@ -80,14 +94,36 @@ export default function Update() {
 
   return (
     <Container>
-      <Typography variant="h6" component="h2" color="textSecondary" my="1.5rem">
-        Create a new note
+      <Typography
+        variant="h5"
+        component="h2"
+        color="textSecondary"
+        mt="-1rem"
+        mb="1rem"
+      >
+        Update the note
       </Typography>
+      {note.modifiedAt ? (
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography color="text.secondary" variant="button">
+            Modified at:{" "}
+          </Typography>
+          <Chip label={note.modifiedAt} icon={<AccessTimeIcon />} />
+        </Stack>
+      ) : (
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography color="text.secondary" variant="button">
+            Created at:{" "}
+          </Typography>
+          <Chip label={note.createdAt} icon={<AccessTimeIcon />} />
+        </Stack>
+      )}
       <form
         noValidate
         component="form"
         autoComplete="off"
         onSubmit={handleUpdate}
+        style={{ marginTop: "2rem" }}
       >
         <TextField
           value={note.title || ""}

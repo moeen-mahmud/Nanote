@@ -8,6 +8,12 @@ import {
   IconButton,
   Snackbar,
   Typography,
+  Modal,
+  Box,
+  Stack,
+  Button,
+  Backdrop,
+  Fade,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -18,9 +24,18 @@ import axios from "axios";
 //TODO: Will add a custom color highlighter option
 const NoteCard = ({ note, handleDelete }) => {
   const [favSelected, setFavSelected] = useState(false);
-  // const [favourite, setFavourite] = useState({});
+
+  const [openModal, setOpenModal] = useState(false);
   const [openSuccessSnackbar, setOpenSuccessSnackBar] = useState(false);
   const [openWarningSnackbar, setOpenWarningSnackBar] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const handleSuccessSnackbarClose = () => {
     setOpenSuccessSnackBar(false);
@@ -89,7 +104,6 @@ const NoteCard = ({ note, handleDelete }) => {
     axios
       .get(`https://mysterious-wave-12411.herokuapp.com/favourites/${note._id}`)
       .then((res) => {
-        // console.log(res.data);
         if (res.data) {
           setFavSelected(true);
         } else {
@@ -100,19 +114,16 @@ const NoteCard = ({ note, handleDelete }) => {
 
   const handleFavourite = (id) => {
     setFavSelected(!favSelected);
-    console.log(!favSelected);
     if (!favSelected) {
       axios
         .get(`https://mysterious-wave-12411.herokuapp.com/notes/${id}`)
         .then((res) => {
-          // console.log(res.data);
           axios
             .post(
               `https://mysterious-wave-12411.herokuapp.com/favourites`,
               res.data
             )
             .then((res) => {
-              // console.log(res.data);
               if (res.data.insertedId) {
                 setOpenSuccessSnackBar(true);
               }
@@ -149,7 +160,7 @@ const NoteCard = ({ note, handleDelete }) => {
                 <FavoriteBorderOutlinedIcon />
               )}
             </IconButton>
-            <IconButton onClick={() => handleDelete(note._id)}>
+            <IconButton onClick={handleOpenModal}>
               <DeleteOutlined />
             </IconButton>
           </>
@@ -160,6 +171,64 @@ const NoteCard = ({ note, handleDelete }) => {
       <CardContent>
         <Typography variant="body2">{note.details}</Typography>
       </CardContent>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "none",
+              borderRadius: "5px",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Typography
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+              mb={2}
+            >
+              Want to delete this?
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={2}
+            >
+              <Button
+                onClick={handleCloseModal}
+                variant="contained"
+                color="secondary"
+              >
+                Hell, no!
+              </Button>
+              <Button
+                onClick={() => handleDelete(note._id)}
+                variant="outlined"
+                color="primary"
+              >
+                Yes, please.
+              </Button>
+            </Stack>
+          </Box>
+        </Fade>
+      </Modal>
       <Snackbar
         open={openSuccessSnackbar}
         autoHideDuration={6000}

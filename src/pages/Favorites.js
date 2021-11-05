@@ -20,19 +20,15 @@ export default function Favourites() {
   const filterdNotes = notes.filter((note) => note.email === user.email);
 
   const handleDelete = (id) => {
-    const confirmation = window.confirm("Do you want to delete this note?");
-    if (confirmation) {
-      axios
-        .delete(`https://mysterious-wave-12411.herokuapp.com/notes/${id}`)
-        .then((res) => {
-          console.log(res.data);
-          if (res.data.deletedCount > 0) {
-            const newNotes = notes.filter((note) => note._id !== id);
-            setNotes(newNotes);
-            setOpenSnackBar(true);
-          }
-        });
-    }
+    axios
+      .delete(`https://mysterious-wave-12411.herokuapp.com/notes/${id}`)
+      .then((res) => {
+        if (res.data.deletedCount > 0) {
+          const newNotes = notes.filter((note) => note._id !== id);
+          setNotes(newNotes);
+          setOpenSnackBar(true);
+        }
+      });
   };
 
   const handleSnackbarClose = () => {

@@ -85,7 +85,7 @@ const Layout = ({ children }) => {
           </Typography>
           <List>
             {menuItems.map((item) => (
-              <ListItem disablePadding>
+              <ListItem key={item.text} disablePadding>
                 <ListItemButton
                   sx={
                     location.pathname === item.path

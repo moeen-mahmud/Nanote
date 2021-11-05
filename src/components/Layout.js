@@ -64,7 +64,7 @@ const Layout = ({ children }) => {
       <Drawer sx={{ width: "200px" }} variant="permanent" anchor="left">
         <div className={classes.drawer}>
           <Typography variant="h5" sx={{ padding: "1rem" }}>
-            NaNotes
+            NaNote
           </Typography>
           <List>
             {menuItems.map((item) => (

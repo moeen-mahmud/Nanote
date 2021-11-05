@@ -21,7 +21,7 @@ export default function Favourites() {
 
   const handleDelete = (id) => {
     axios
-      .delete(`https://mysterious-wave-12411.herokuapp.com/notes/${id}`)
+      .delete(`https://mysterious-wave-12411.herokuapp.com/favourites/${id}`)
       .then((res) => {
         if (res.data.deletedCount > 0) {
           const newNotes = notes.filter((note) => note._id !== id);

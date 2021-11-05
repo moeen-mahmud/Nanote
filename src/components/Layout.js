@@ -76,6 +76,11 @@ const Layout = ({ children }) => {
     setOpenModal(false);
   };
 
+  const handleLogOut = () => {
+    setOpenModal(false);
+    logOut();
+  };
+
   return (
     <div style={{ display: "flex" }}>
       <Drawer sx={{ width: "200px" }} variant="permanent" anchor="left">
@@ -181,7 +186,7 @@ const Layout = ({ children }) => {
               >
                 Nope
               </Button>
-              <Button onClick={logOut} variant="outlined" color="primary">
+              <Button onClick={handleLogOut} variant="outlined" color="primary">
                 Yup
               </Button>
             </Stack>

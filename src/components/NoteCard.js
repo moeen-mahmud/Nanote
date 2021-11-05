@@ -16,13 +16,15 @@ import {
   Fade,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import axios from "axios";
 
 //TODO: Will add a custom color highlighter option
 const NoteCard = ({ note, handleDelete }) => {
+  const location = useLocation();
+
   const [favSelected, setFavSelected] = useState(false);
 
   const [openModal, setOpenModal] = useState(false);
@@ -160,9 +162,11 @@ const NoteCard = ({ note, handleDelete }) => {
                 <FavoriteBorderOutlinedIcon />
               )}
             </IconButton>
-            <IconButton onClick={handleOpenModal}>
-              <DeleteOutlined />
-            </IconButton>
+            {location.pathname !== "/favourites" && (
+              <IconButton onClick={handleOpenModal}>
+                <DeleteOutlined />
+              </IconButton>
+            )}
           </>
         }
         title={note.title}
@@ -203,8 +207,15 @@ const NoteCard = ({ note, handleDelete }) => {
               component="h2"
               mb={2}
             >
-              Want to delete this?
+              Want to delete this note?
             </Typography>
+            <Box mb={3}>
+              {location.pathname === "/" && (
+                <Alert severity="warning">
+                  This note will delete permanently
+                </Alert>
+              )}
+            </Box>
             <Stack
               direction="row"
               justifyContent="flex-end"

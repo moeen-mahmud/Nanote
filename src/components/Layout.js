@@ -9,16 +9,22 @@ import {
   Toolbar,
   Typography,
   Avatar,
+  Modal,
+  Backdrop,
+  Fade,
+  Stack,
+  Button,
 } from "@mui/material";
 import { format } from "date-fns";
 import { makeStyles } from "@mui/styles";
-import React from "react";
+import React, { useState } from "react";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useHistory, useLocation } from "react-router";
 import useAuth from "../hooks/useAuth";
+import { Box } from "@mui/system";
 
 const menuItems = [
   {
@@ -55,9 +61,20 @@ const useStyles = makeStyles((theme) => {
 
 const Layout = ({ children }) => {
   const { user, logOut } = useAuth();
+
+  const [openModal, setOpenModal] = useState(false);
+
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -85,7 +102,7 @@ const Layout = ({ children }) => {
               </ListItem>
             ))}
             <ListItem disablePadding>
-              <ListItemButton onClick={logOut}>
+              <ListItemButton onClick={handleOpenModal}>
                 <ListItemIcon>
                   <LogoutIcon color="secondary" />
                 </ListItemIcon>
@@ -117,6 +134,60 @@ const Layout = ({ children }) => {
         <div className={classes.toolbar}></div>
         {children}
       </div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "none",
+              borderRadius: "5px",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Typography
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+              mb={2}
+            >
+              Want to logout?
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={2}
+            >
+              <Button
+                onClick={handleCloseModal}
+                variant="contained"
+                color="secondary"
+              >
+                Nope
+              </Button>
+              <Button onClick={logOut} variant="outlined" color="primary">
+                Yup
+              </Button>
+            </Stack>
+          </Box>
+        </Fade>
+      </Modal>
     </div>
   );
 };

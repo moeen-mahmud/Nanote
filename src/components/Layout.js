@@ -139,8 +139,6 @@ const Layout = ({ children }) => {
                 <WbSunnyIcon sx={{ color: "yellow" }} />
               </Stack>
             )}
-          </Typography>
-          <Typography sx={{ flexGrow: 1 }}>
             {greetHour >= 12 && greetHour < 17 ? (
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography>Good Afternoon</Typography>
@@ -149,8 +147,6 @@ const Layout = ({ children }) => {
             ) : (
               ""
             )}
-          </Typography>
-          <Typography sx={{ flexGrow: 1 }}>
             {greetHour > 17 && greetHour <= 24 ? (
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography variant="button">Good Evening</Typography>

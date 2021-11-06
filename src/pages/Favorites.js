@@ -11,13 +11,13 @@ export default function Favourites() {
 
   useEffect(() => {
     axios
-      .get("https://mysterious-wave-12411.herokuapp.com/favourites")
+      .get(
+        `https://mysterious-wave-12411.herokuapp.com/favourites?email=${user.email}`
+      )
       .then((res) => {
         setNotes(res.data);
       });
-  }, []);
-
-  const filterdNotes = notes.filter((note) => note.email === user.email);
+  }, [user.email]);
 
   const handleDelete = (id) => {
     axios
@@ -37,13 +37,13 @@ export default function Favourites() {
 
   return (
     <Container>
-      {filterdNotes.length === 0 ? (
+      {notes.length === 0 ? (
         <div style={{ textAlign: "center", padding: "10rem 10rem" }}>
           <h1>You have no favorite notes!</h1>
         </div>
       ) : (
         <Grid container spacing={3}>
-          {filterdNotes.map((note) => (
+          {notes.map((note) => (
             <Grid item xs={12} md={6} lg={4} key={note._id}>
               <NoteCard note={note} handleDelete={handleDelete} />
             </Grid>

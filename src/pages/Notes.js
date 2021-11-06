@@ -14,13 +14,13 @@ export default function Notes() {
 
   useEffect(() => {
     axios
-      .get("https://mysterious-wave-12411.herokuapp.com/notes")
+      .get(
+        `https://mysterious-wave-12411.herokuapp.com/notes?email=${user.email}`
+      )
       .then((res) => {
         setNotes(res.data);
       });
-  }, []);
-
-  const filteredNotes = notes.filter((note) => note.email === user.email);
+  }, [user.email]);
 
   const handleDelete = (id) => {
     axios
@@ -54,7 +54,7 @@ export default function Notes() {
 
   return (
     <Container>
-      {filteredNotes.length === 0 ? (
+      {notes.length === 0 ? (
         <Box
           style={{
             backgroundImage: `url("${BackgroundImage}")`,
@@ -79,7 +79,7 @@ export default function Notes() {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {filteredNotes.map((note) => (
+          {notes.map((note) => (
             <div key={note._id}>
               <NoteCard note={note} handleDelete={handleDelete} />
             </div>

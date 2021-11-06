@@ -22,7 +22,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import LogoutIcon from "@mui/icons-material/Logout";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import Brightness5Icon from "@mui/icons-material/Brightness5";
-import NightlightIcon from "@mui/icons-material/Nightlight";
+import NightsStayIcon from "@mui/icons-material/NightsStay";
 
 import { useLocation, useHistory } from "react-router-dom";
 
@@ -153,13 +153,13 @@ function AppDrawer({ children }) {
                 <Typography variant="button" sx={{ fontSize: "1.1rem" }}>
                   Good Morning
                 </Typography>
-                <WbSunnyIcon sx={{ color: "yellow" }} />
+                <WbSunnyIcon sx={{ color: "#FDD835" }} />
               </Stack>
             )}
             {greetHour >= 12 && greetHour < 17 ? (
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography>Good Afternoon</Typography>
-                <Brightness5Icon sx={{ color: "orange" }} />
+                <Brightness5Icon sx={{ color: "#FB8C00" }} />
               </Stack>
             ) : (
               ""
@@ -167,7 +167,7 @@ function AppDrawer({ children }) {
             {greetHour > 17 && greetHour <= 24 ? (
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography variant="button">Good Evening</Typography>
-                <NightlightIcon sx={{ color: "#544CE6" }} />
+                <NightsStayIcon sx={{ color: "#9FA8DA" }} />
               </Stack>
             ) : (
               ""

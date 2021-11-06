@@ -2,7 +2,6 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -13,7 +12,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import { Modal, Backdrop, Fade, Stack } from "@mui/material";
@@ -25,8 +23,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import Brightness5Icon from "@mui/icons-material/Brightness5";
 import NightlightIcon from "@mui/icons-material/Nightlight";
-
-import NanoteIcon from "../assets/nanote-icon.png";
 
 import { useLocation, useHistory } from "react-router-dom";
 
@@ -90,18 +86,15 @@ function AppDrawer({ children }) {
   const drawer = (
     <div style={{ position: "relative" }}>
       <Toolbar />
-      <Box sx={{ mt: "-3.1rem", mb: "1rem", px: 2 }}>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Avatar src={NanoteIcon} />
-          <Typography
-            fontWeight={500}
-            variant="h5"
-            component="span"
-            color="text.secondary"
-          >
-            NaNote
-          </Typography>
-        </Stack>
+      <Box sx={{ mt: "-2.8rem", mb: "1rem", px: 2 }}>
+        <Typography
+          fontWeight={500}
+          variant="h5"
+          component="span"
+          color="text.secondary"
+        >
+          NaNote
+        </Typography>
       </Box>
       <List>
         {menuItems.map((item) => (

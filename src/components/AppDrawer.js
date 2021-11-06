@@ -46,7 +46,7 @@ const menuItems = [
   },
 ];
 
-const drawerWidth = 200;
+const drawerWidth = 220;
 
 function AppDrawer({ children }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);

@@ -22,6 +22,7 @@ export default function Notes() {
   const [notes, setNotes] = useState([]);
   const [category, setCategory] = useState("");
 
+  const [openModal, setOpenModal] = useState(false);
   const [openSnackbar, setOpenSnackBar] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -53,14 +54,15 @@ export default function Notes() {
       .delete(`https://mysterious-wave-12411.herokuapp.com/notes/${id}`)
       .then((res) => {
         if (res.data.deletedCount > 0) {
+          const newNotes = notes.filter((note) => note._id !== id);
+          setNotes(newNotes);
+          setOpenModal(false);
           axios
             .delete(
               `https://mysterious-wave-12411.herokuapp.com/favourites/${id}`
             )
             .then((res) => {
               if (res.data.deletedCount > 0) {
-                const newNotes = notes.filter((note) => note._id !== id);
-                setNotes(newNotes);
                 setOpenSnackBar(true);
               }
             });
@@ -157,7 +159,12 @@ export default function Notes() {
         >
           {notes.map((note) => (
             <div key={note._id}>
-              <NoteCard note={note} handleDelete={handleDelete} />
+              <NoteCard
+                note={note}
+                handleDelete={handleDelete}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+              />
             </div>
           ))}
         </Masonry>

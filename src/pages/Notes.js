@@ -6,6 +6,8 @@ import {
   Menu,
   MenuItem,
   Button,
+  Avatar,
+  Divider,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -81,7 +83,6 @@ export default function Notes() {
       <span
         style={{
           position: "relative",
-          left: "87%",
           marginTop: "-2rem",
           marginBottom: "1rem",
           display: "inline-block",
@@ -105,17 +106,28 @@ export default function Notes() {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={() => handleCategoryChange("")}>All</MenuItem>
+          <MenuItem onClick={() => handleCategoryChange("")}>
+            <Avatar sx={{ width: "30px", height: "30px", mr: 1 }}>A</Avatar>All
+          </MenuItem>
+          <Divider />
           <MenuItem onClick={() => handleCategoryChange("money")}>
+            <Avatar sx={{ width: "30px", height: "30px", mr: 1 }}>M</Avatar>
             Money
           </MenuItem>
+          <Divider />
           <MenuItem onClick={() => handleCategoryChange("todos")}>
+            <Avatar sx={{ width: "30px", height: "30px", mr: 1 }}>T</Avatar>
             Todos
           </MenuItem>
+          <Divider />
           <MenuItem onClick={() => handleCategoryChange("reminders")}>
+            <Avatar sx={{ width: "30px", height: "30px", mr: 1 }}>R</Avatar>
             Reminders
           </MenuItem>
-          <MenuItem onClick={() => handleCategoryChange("work")}>Work</MenuItem>
+          <Divider />
+          <MenuItem onClick={() => handleCategoryChange("work")}>
+            <Avatar sx={{ width: "30px", height: "30px", mr: 1 }}>W</Avatar>Work
+          </MenuItem>
         </Menu>
       </span>
       {notes.length === 0 ? (

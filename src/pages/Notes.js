@@ -1,4 +1,12 @@
-import { Alert, Container, Snackbar, Typography } from "@mui/material";
+import {
+  Alert,
+  Container,
+  Snackbar,
+  Typography,
+  Menu,
+  MenuItem,
+  Button,
+} from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NoteCard from "../components/NoteCard";
@@ -10,17 +18,33 @@ import useAuth from "../hooks/useAuth";
 export default function Notes() {
   const { user } = useAuth();
   const [notes, setNotes] = useState([]);
+  const [category, setCategory] = useState("");
+
   const [openSnackbar, setOpenSnackBar] = useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openMenu = Boolean(anchorEl);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleCategoryChange = (category) => {
+    setCategory(category);
+    handleMenuClose();
+  };
 
   useEffect(() => {
     axios
       .get(
-        `https://mysterious-wave-12411.herokuapp.com/notes?email=${user.email}`
+        `https://mysterious-wave-12411.herokuapp.com/notes?email=${user.email}&category=${category}`
       )
       .then((res) => {
         setNotes(res.data);
       });
-  }, [user.email]);
+  }, [user.email, category]);
 
   const handleDelete = (id) => {
     axios
@@ -54,6 +78,46 @@ export default function Notes() {
 
   return (
     <Container>
+      <span
+        style={{
+          position: "relative",
+          left: "87%",
+          marginTop: "-2rem",
+          marginBottom: "1rem",
+          display: "inline-block",
+        }}
+      >
+        <Button
+          id="basic-button"
+          aria-controls="basic-menu"
+          aria-haspopup="true"
+          aria-expanded={openMenu ? "true" : undefined}
+          onClick={handleMenu}
+        >
+          Sort By Category
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={openMenu}
+          onClose={handleMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={() => handleCategoryChange("")}>All</MenuItem>
+          <MenuItem onClick={() => handleCategoryChange("money")}>
+            Money
+          </MenuItem>
+          <MenuItem onClick={() => handleCategoryChange("todos")}>
+            Todos
+          </MenuItem>
+          <MenuItem onClick={() => handleCategoryChange("reminders")}>
+            Reminders
+          </MenuItem>
+          <MenuItem onClick={() => handleCategoryChange("work")}>Work</MenuItem>
+        </Menu>
+      </span>
       {notes.length === 0 ? (
         <Box
           style={{

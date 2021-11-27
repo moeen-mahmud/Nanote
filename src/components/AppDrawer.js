@@ -1,3 +1,4 @@
+// Necessary modules
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -16,6 +17,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import { Modal, Backdrop, Fade, Stack } from "@mui/material";
 
+// Material icons
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -24,10 +26,13 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import Brightness5Icon from "@mui/icons-material/Brightness5";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 
+// React router v5
 import { useLocation, useHistory } from "react-router-dom";
 
+// Use Auth hook
 import useAuth from "../hooks/useAuth";
 
+// Menu Items
 const menuItems = [
   {
     text: "My Notes",
@@ -48,41 +53,51 @@ const menuItems = [
 
 const drawerWidth = 220;
 
+// App drawer
 function AppDrawer({ children }) {
+  // State for smaller devices
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
+  // authentication states
   const { user, logOut } = useAuth();
 
+  // Top bar greeting state
   const [greetHour, setGreetHour] = React.useState(null);
 
+  // State for modals
   const [openModal, setOpenModal] = React.useState(false);
 
+  // React router
   const history = useHistory();
   const location = useLocation();
 
+  // Click handler for modals
   const handleOpenModal = () => {
     setOpenModal(true);
   };
-
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
+  // Click handler for user log out
   const handleLogOut = () => {
     setOpenModal(false);
     logOut();
   };
 
+  // Managing date time
   React.useEffect(() => {
     const date = new Date();
     const hour = date.getHours();
     setGreetHour(hour);
   }, []);
 
+  // Drawer toggler
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  // The drawer component
   const drawer = (
     <div style={{ position: "relative" }}>
       <Toolbar />
@@ -137,6 +152,7 @@ function AppDrawer({ children }) {
           ml: { sm: `${drawerWidth}px` },
         }}
       >
+        {/* Toolbar */}
         <Toolbar>
           <IconButton
             color="inherit"
@@ -148,6 +164,7 @@ function AppDrawer({ children }) {
             <MenuIcon />
           </IconButton>
           <Typography component="div" sx={{ flexGrow: 1 }}>
+            {/* Render based on user local time */}
             {greetHour < 12 && (
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Typography variant="button" sx={{ fontSize: "1.1rem" }}>
@@ -173,6 +190,7 @@ function AppDrawer({ children }) {
               ""
             )}
           </Typography>
+          {/* User name with avatar */}
           <Typography
             component="span"
             sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
@@ -191,6 +209,7 @@ function AppDrawer({ children }) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
+        {/* Using drawer */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -233,6 +252,7 @@ function AppDrawer({ children }) {
         <Toolbar />
         {children}
       </Box>
+      {/* Modal for confirming log out */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

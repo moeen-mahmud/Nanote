@@ -3,6 +3,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
+  getIdToken,
   signOut,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -26,6 +27,9 @@ const useFirebase = () => {
     const unsubscribed = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        getIdToken(user).then((idToken) =>
+          localStorage.setItem("id_token", idToken)
+        );
       } else {
         setUser({});
       }

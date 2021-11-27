@@ -39,9 +39,15 @@ export default function Notes() {
   };
 
   useEffect(() => {
+    const userAuthorizationConfig = {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("id_token")}`,
+      },
+    };
     axios
       .get(
-        `https://mysterious-wave-12411.herokuapp.com/notes?email=${user.email}&category=${category}`
+        `https://mysterious-wave-12411.herokuapp.com/notes?email=${user.email}&category=${category}`,
+        userAuthorizationConfig
       )
       .then((res) => {
         setNotes(res.data);
@@ -55,7 +61,6 @@ export default function Notes() {
         if (res.data.deletedCount > 0) {
           const newNotes = notes.filter((note) => note._id !== id);
           setNotes(newNotes);
-          // setOpenModal(false);
           axios
             .delete(
               `https://mysterious-wave-12411.herokuapp.com/favourites/${id}`
@@ -158,12 +163,7 @@ export default function Notes() {
         >
           {notes.map((note) => (
             <div key={note._id}>
-              <NoteCard
-                note={note}
-                handleDelete={handleDelete}
-                // openModal={openModal}
-                // setOpenModal={setOpenModal}
-              />
+              <NoteCard note={note} handleDelete={handleDelete} />
             </div>
           ))}
         </Masonry>

@@ -1,4 +1,7 @@
+// Material icons
 import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
+
+// Material ui modules
 import {
   Alert,
   Avatar,
@@ -15,30 +18,38 @@ import {
   Backdrop,
   Fade,
 } from "@mui/material";
+
+// Necessary components
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import axios from "axios";
 
-//TODO: Will add a custom color highlighter option
+// Main notecard component
 const NoteCard = ({ note, handleDelete }) => {
+  // Ract router
   const location = useLocation();
 
+  // state for modal
   const [openModal, setOpenModal] = useState(false);
+
+  // state for fav button
   const [favSelected, setFavSelected] = useState(false);
 
+  // States for snackbars
   const [openSuccessSnackbar, setOpenSuccessSnackBar] = useState(false);
   const [openWarningSnackbar, setOpenWarningSnackBar] = useState(false);
 
+  // Click handler for modals
   const handleOpenModal = () => {
     setOpenModal(true);
   };
-
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
+  // Click handler for snackbars
   const handleSuccessSnackbarClose = () => {
     setOpenSuccessSnackBar(false);
   };
@@ -46,6 +57,7 @@ const NoteCard = ({ note, handleDelete }) => {
     setOpenWarningSnackBar(false);
   };
 
+  // Custom border highlighter for each category
   const noteHighlighter = (category) => {
     if (category === "work") {
       return {
@@ -73,6 +85,7 @@ const NoteCard = ({ note, handleDelete }) => {
     }
   };
 
+  // Custom background color for each avatar
   const avatarBackground = (category) => {
     if (category === "work") {
       return {
@@ -98,10 +111,12 @@ const NoteCard = ({ note, handleDelete }) => {
 
   const history = useHistory();
 
+  // Click handler for editing the note
   const handleEdit = (id) => {
     history.push(`/notes/update/${id}`);
   };
 
+  // Side effect for the favorite button functionality
   useEffect(() => {
     axios
       .get(`https://mysterious-wave-12411.herokuapp.com/favourites/${note._id}`)
@@ -114,6 +129,7 @@ const NoteCard = ({ note, handleDelete }) => {
       });
   }, [note._id]);
 
+  // Function for favorite button
   const handleFavourite = (id) => {
     setFavSelected(!favSelected);
     if (!favSelected) {
@@ -142,6 +158,7 @@ const NoteCard = ({ note, handleDelete }) => {
     }
   };
 
+  // Auxilary click handler for deleting note
   const deleteNote = () => {
     handleDelete(note._id);
     setOpenModal(false);

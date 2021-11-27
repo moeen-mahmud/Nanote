@@ -22,9 +22,10 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import axios from "axios";
 
 //TODO: Will add a custom color highlighter option
-const NoteCard = ({ note, handleDelete, openModal, setOpenModal }) => {
+const NoteCard = ({ note, handleDelete }) => {
   const location = useLocation();
 
+  const [openModal, setOpenModal] = useState(false);
   const [favSelected, setFavSelected] = useState(false);
 
   const [openSuccessSnackbar, setOpenSuccessSnackBar] = useState(false);
@@ -141,6 +142,11 @@ const NoteCard = ({ note, handleDelete, openModal, setOpenModal }) => {
     }
   };
 
+  const deleteNote = () => {
+    handleDelete(note._id);
+    setOpenModal(false);
+  };
+
   return (
     <Card sx={() => noteHighlighter(note.category)}>
       <CardHeader
@@ -228,13 +234,7 @@ const NoteCard = ({ note, handleDelete, openModal, setOpenModal }) => {
               >
                 Hell, no!
               </Button>
-              <Button
-                onClick={() => {
-                  handleDelete(note._id);
-                }}
-                variant="outlined"
-                color="primary"
-              >
+              <Button onClick={deleteNote} variant="outlined" color="primary">
                 Yes, please.
               </Button>
             </Stack>
